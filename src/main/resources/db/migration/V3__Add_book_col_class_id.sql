@@ -1,0 +1,1 @@
+ALTER TABLE book ADD COLUMN class_id INT NOT NULL;
