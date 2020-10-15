@@ -1,12 +1,40 @@
 package helloWorld.model;
 
 public class BookInfo {
+
+	/**
+	 * book_id
+	 */
 	private Integer id;
+
+	/**
+	 * book_price
+	 */
 	private Double price;
+
+	/**
+	 * book_quantity
+	 */
 	private Integer quantity;
+
+	/**
+	 * book_company
+	 */
 	private String company;
+
+	/**
+	 * book_state
+	 */
 	private int state;
+
+	/**
+	 * book_class_id
+	 */
 	private int classId;
+
+	/**
+	 * book_tax
+	 */
 	private Double tax;
 
 	public BookInfo() {

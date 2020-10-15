@@ -1,16 +1,50 @@
 package helloWorld.utils;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
+/**
+ * Mysql connection util
+ * 
+ * @author htv-banghhk
+ *
+ */
 public class ConnectionUtils {
 
+	private static final String DB_CONFIG = "jdbcLocal.properties";
+
+	public static Properties getDBProp() {
+		Properties prop = new Properties();
+		InputStream input = null;
+		URL pathToConfig = ClassLoader.getSystemResource(ConnectionUtils.DB_CONFIG);
+		try {
+			input = new FileInputStream(pathToConfig.getPath());
+			// load properties
+			prop.load(input);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return prop;
+	}
+
+	/**
+	 * connect to mysql database
+	 * 
+	 * @return java.sql.Connection
+	 */
 	public Connection getConnection() {
+		Properties dbProp = ConnectionUtils.getDBProp();
 		Connection conn = null;
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/MY_DATABASE", "root", "123456");
+			Class.forName(dbProp.getProperty("jdbc.driver"));
+			conn = DriverManager.getConnection(dbProp.getProperty("jdbc.url"), dbProp.getProperty("jdbc.user"),
+					dbProp.getProperty("jdbc.password"));
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -18,7 +52,10 @@ public class ConnectionUtils {
 		}
 		return conn;
 	}
-	
+
+	/**
+	 * kill connection silently
+	 */
 	public void silentKillConnection(Connection conn) {
 		try {
 			conn.close();

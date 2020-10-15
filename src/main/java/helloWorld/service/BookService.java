@@ -4,6 +4,7 @@ import java.util.List;
 
 import helloWorld.model.BookInfo;
 import helloWorld.repository.BookRepository;
+import helloWorld.utils.ConstUtils;
 
 public class BookService {
 
@@ -25,11 +26,12 @@ public class BookService {
 	public Double sumBookPriceByBookClass(Integer classType) {
 		Double sum = 0.0;
 		List<BookInfo> bookList = this.bookRepo.getBookByType(classType);
+		Integer state = bookList.get(0).getState();
 		for (BookInfo book : bookList) {
 			sum = sum + book.getQuantity() * book.getPrice();
-			sum = sum + (classType == 2 ? book.getTax() : 0.0);
+			sum = sum + (classType == ConstUtils.BOOK_CLASS_SACH_THAM_KHAO ? book.getTax() : 0.0);
 		}
-		if (classType == 1) {
+		if (state == ConstUtils.BOOK_OLD) {
 			sum = sum / 2;
 		}
 
