@@ -18,19 +18,36 @@ import java.util.Properties;
 public class ConnectionUtils {
 
 	private static final String DB_CONFIG = "jdbcLocal.properties";
+	private static ConnectionUtils instance = null;
+	private Properties properties = new Properties();
 
-	public static Properties getDBProp() {
-		Properties prop = new Properties();
+	/*
+	 * private ConnectionUtils() { }
+	 */
+
+	public String getProperty(String key) {
+		return this.properties.getProperty(key);
+	}
+
+	public static ConnectionUtils getInstance() {
+		if (instance == null) {
+			instance = new ConnectionUtils();
+			instance.getDBProp();
+		}
+		return instance;
+	}
+
+	public Properties getDBProp() {
 		InputStream input = null;
 		URL pathToConfig = ClassLoader.getSystemResource(ConnectionUtils.DB_CONFIG);
 		try {
 			input = new FileInputStream(pathToConfig.getPath());
 			// load properties
-			prop.load(input);
+			this.properties.load(input);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return prop;
+		return this.properties;
 	}
 
 	/**
@@ -39,12 +56,12 @@ public class ConnectionUtils {
 	 * @return java.sql.Connection
 	 */
 	public Connection getConnection() {
-		Properties dbProp = ConnectionUtils.getDBProp();
+		ConnectionUtils util = ConnectionUtils.getInstance();
 		Connection conn = null;
 		try {
-			Class.forName(dbProp.getProperty("jdbc.driver"));
-			conn = DriverManager.getConnection(dbProp.getProperty("jdbc.url"), dbProp.getProperty("jdbc.user"),
-					dbProp.getProperty("jdbc.password"));
+			Class.forName(util.getProperty("jdbc.driver"));
+			conn = DriverManager.getConnection(util.getProperty("jdbc.url"), util.getProperty("jdbc.user"),
+					util.getProperty("jdbc.password"));
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
