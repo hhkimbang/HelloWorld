@@ -12,10 +12,15 @@ import helloWorld.utils.ConnectionUtils;
 
 public class BookRepositoryImpl implements BookRepository {
 
-	private ConnectionUtils utils = new ConnectionUtils();
+	private ConnectionUtils utils;
+
+	public BookRepositoryImpl(ConnectionUtils utils) {
+		this.utils = utils;
+	}
 
 	@Override
-	public int insertIntoBook(Integer id, Double price, Integer quantity, String company, int state, int classId, Double tax) {
+	public int insertIntoBook(Integer id, Double price, Integer quantity, String company, int state, int classId,
+			Double tax) {
 		String sql = "INSERT INTO book (book_id, book_price, book_company, book_quantity, book_state, class_id, tax) VALUE (?,?,?,?,?,?,?)";
 		Connection conn = utils.getConnection();
 		PreparedStatement stmt;

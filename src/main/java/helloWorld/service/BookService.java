@@ -4,11 +4,14 @@ import java.util.List;
 
 import helloWorld.model.BookInfo;
 import helloWorld.repository.BookRepository;
-import helloWorld.repository.BookRepositoryImpl;
 
 public class BookService {
 
-	private BookRepository bookRepo = new BookRepositoryImpl();
+	private BookRepository bookRepo;
+
+	public BookService(BookRepository bookRepo) {
+		this.bookRepo = bookRepo;
+	}
 
 	public int insertIntoBook(Integer id, Double price, Integer quantity, String company, int state, int classId,
 			Double tax) {
@@ -41,12 +44,12 @@ public class BookService {
 		}
 		return sum = sum / bookList.size();
 	}
-	
-	public List<BookInfo> getBookByCompany(String company){
+
+	public List<BookInfo> getBookByCompany(String company) {
 		return this.bookRepo.getBookByCompany(company);
 	}
-	
-	public List<BookInfo> getBookInfoList(){
+
+	public List<BookInfo> getBookInfoList() {
 		return this.bookRepo.getBookInfoList();
 	}
 }

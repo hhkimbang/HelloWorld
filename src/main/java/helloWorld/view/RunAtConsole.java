@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Scanner;
 
 import helloWorld.model.BookInfo;
+import helloWorld.repository.BookRepositoryImpl;
 import helloWorld.service.BookService;
+import helloWorld.utils.ConnectionUtils;
 
 public class RunAtConsole {
 
 	public static void main(String[] args) {
-		BookService bookService = new BookService();
+		BookService bookService = new BookService(new BookRepositoryImpl(new ConnectionUtils()));
 		System.out.println("book available are: ");
 		for (BookInfo book : bookService.getBookInfoList()) {
 			String state = book.getState() == 0 ? "sach cu" : "sach moi";
@@ -54,7 +56,7 @@ public class RunAtConsole {
 				sc = new Scanner(System.in);
 				String company = sc.nextLine();
 				List<BookInfo> booklist = bookService.getBookByCompany(company);
-				if(booklist.size() == 0)
+				if (booklist.size() == 0)
 					System.out.println("khong tim thay");
 				for (BookInfo book : booklist) {
 					System.out.println("book id: " + book.getId());
