@@ -13,7 +13,7 @@ public class RunAtConsole {
 
 	public static void main(String[] args) {
 		// intial BookService
-		BookService bookService = new BookService(new BookRepositoryImpl(new ConnectionUtils()));
+		BookService bookService = new BookService(new BookRepositoryImpl(ConnectionUtils.getInstance()));
 		// list all book available in db
 		System.out.println("book available are: ");
 		for (BookInfo book : bookService.getBookInfoList()) {

@@ -17,13 +17,13 @@ import java.util.Properties;
  */
 public class ConnectionUtils {
 
+	// singleton load propfile config
 	private static final String DB_CONFIG = "jdbcLocal.properties";
 	private static ConnectionUtils instance = null;
 	private Properties properties = new Properties();
 
-	/*
-	 * private ConnectionUtils() { }
-	 */
+	private ConnectionUtils() {
+	}
 
 	public String getProperty(String key) {
 		return this.properties.getProperty(key);
